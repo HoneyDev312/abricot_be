@@ -51,7 +51,11 @@ const options = {
             },
             name: {
               type: "string",
-              description: "Nom de l'utilisateur",
+              description: "Nom de famille de l'utilisateur",
+            },
+            firstname: {
+              type: "string",
+              description: "Prénom de l'utilisateur",
             },
             createdAt: {
               type: "string",

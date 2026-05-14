@@ -14,7 +14,7 @@ const router = Router();
  * @route   POST /auth/register
  * @desc    Inscription d'un nouvel utilisateur
  * @access  Public
- * @body    { email: string, password: string, name?: string }
+ * @body    { email: string, password: string, name?: string, firstname?: string }
  */
 router.post("/register", register);
 
@@ -39,7 +39,7 @@ router.get("/profile", authenticateToken, getProfile);
  * @desc    Mettre à jour le profil de l'utilisateur connecté
  * @access  Private (nécessite un token JWT valide)
  * @header  Authorization: Bearer <token>
- * @body    { name?: string, email?: string }
+ * @body    { name?: string, firstname?: string, email?: string }
  */
 router.put("/profile", authenticateToken, updateProfile);
 

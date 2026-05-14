@@ -38,6 +38,7 @@ import {
  *               - email
  *               - password
  *               - name
+ *               - firstname
  *             properties:
  *               email:
  *                 type: string
@@ -51,8 +52,12 @@ import {
  *                 example: "Password123!"
  *               name:
  *                 type: string
- *                 description: Nom de l'utilisateur
- *                 example: "John Doe"
+ *                 description: Nom de famille de l'utilisateur
+ *                 example: "Doe"
+ *               firstname:
+ *                 type: string
+ *                 description: Prénom de l'utilisateur
+ *                 example: "John"
  *     responses:
  *       201:
  *         description: Utilisateur créé avec succès
@@ -86,10 +91,15 @@ import {
  */
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, password, name }: RegisterRequest = req.body;
+    const { email, password, name, firstname }: RegisterRequest = req.body;
 
     // Validation des données
-    const validationErrors = validateRegisterData({ email, password, name });
+    const validationErrors = validateRegisterData({
+      email,
+      password,
+      name,
+      firstname,
+    });
     if (validationErrors.length > 0) {
       sendValidationError(
         res,
@@ -124,11 +134,13 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         email: email.toLowerCase(),
         password: hashedPassword,
         name: name?.trim() || null,
+        firstname: firstname?.trim() || null,
       },
       select: {
         id: true,
         email: true,
         name: true,
+        firstname: true,
         createdAt: true,
       },
     });
@@ -252,6 +264,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       id: user.id,
       email: user.email,
       name: user.name,
+      firstname: user.firstname,
       createdAt: user.createdAt,
     };
 
@@ -322,7 +335,7 @@ export const updateProfile = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { name, email }: UpdateProfileRequest = req.body;
+    const { name, firstname, email }: UpdateProfileRequest = req.body;
     const authReq = req as AuthRequest;
 
     if (!authReq.user) {
@@ -331,7 +344,11 @@ export const updateProfile = async (
     }
 
     // Validation des données
-    const validationErrors = validateUpdateProfileData({ name, email });
+    const validationErrors = validateUpdateProfileData({
+      name,
+      firstname,
+      email,
+    });
     if (validationErrors.length > 0) {
       sendValidationError(
         res,
@@ -363,6 +380,9 @@ export const updateProfile = async (
     if (name !== undefined) {
       updateData.name = name.trim() || null;
     }
+    if (firstname !== undefined) {
+      updateData.firstname = firstname.trim() || null;
+    }
     if (email !== undefined) {
       updateData.email = email.toLowerCase();
     }
@@ -375,6 +395,7 @@ export const updateProfile = async (
         id: true,
         email: true,
         name: true,
+        firstname: true,
         createdAt: true,
         updatedAt: true,
       },

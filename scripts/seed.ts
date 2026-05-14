@@ -5,6 +5,7 @@ import prisma from "../src/lib/prisma";
 interface SeedUser {
   email: string;
   name: string;
+  firstname: string;
   password: string;
 }
 
@@ -32,38 +33,64 @@ interface SeedComment {
 
 // Données de test
 const users: SeedUser[] = [
-  { email: "alice@example.com", name: "Alice Martin", password: "P@ssword123" },
-  { email: "bob@example.com", name: "Bob Dupont", password: "P@ssword123" },
   {
-    email: "caroline@example.com",
-    name: "Caroline Leroy",
+    email: "alice@example.com",
+    name: "Martin",
+    firstname: "Alice",
     password: "P@ssword123",
   },
-  { email: "david@example.com", name: "David Moreau", password: "P@ssword123" },
-  { email: "emma@example.com", name: "Emma Rousseau", password: "P@ssword123" },
+  {
+    email: "bob@example.com",
+    name: "Dupont",
+    firstname: "Bob",
+    password: "P@ssword123",
+  },
+  {
+    email: "caroline@example.com",
+    name: "Leroy",
+    firstname: "Caroline",
+    password: "P@ssword123",
+  },
+  {
+    email: "david@example.com",
+    name: "Moreau",
+    firstname: "David",
+    password: "P@ssword123",
+  },
+  {
+    email: "emma@example.com",
+    name: "Rousseau",
+    firstname: "Emma",
+    password: "P@ssword123",
+  },
   {
     email: "francois@example.com",
-    name: "François Dubois",
+    name: "Dubois",
+    firstname: "François",
     password: "P@ssword123",
   },
   {
     email: "gabrielle@example.com",
-    name: "Gabrielle Simon",
+    name: "Simon",
+    firstname: "Gabrielle",
     password: "P@ssword123",
   },
   {
     email: "henri@example.com",
-    name: "Henri Laurent",
+    name: "Laurent",
+    firstname: "Henri",
     password: "P@ssword123",
   },
   {
     email: "isabelle@example.com",
-    name: "Isabelle Petit",
+    name: "Petit",
+    firstname: "Isabelle",
     password: "P@ssword123",
   },
   {
     email: "jacques@example.com",
-    name: "Jacques Durand",
+    name: "Durand",
+    firstname: "Jacques",
     password: "P@ssword123",
   },
 ];
@@ -85,10 +112,7 @@ const projects: SeedProject[] = [
     description:
       "Application web pour la gestion des ressources humaines : congés, évaluations, planning.",
     ownerEmail: "emma@example.com",
-    contributors: [
-      "francois@example.com",
-      "gabrielle@example.com",
-    ],
+    contributors: ["francois@example.com", "gabrielle@example.com"],
   },
   {
     name: "Application Mobile Fitness",
@@ -447,7 +471,7 @@ async function seed() {
       const ownerId = createdUsers[projectData.ownerEmail];
       if (!ownerId) {
         throw new Error(
-          `Owner introuvable pour le projet ${projectData.name}: ${projectData.ownerEmail}`
+          `Owner introuvable pour le projet ${projectData.name}: ${projectData.ownerEmail}`,
         );
       }
 
@@ -460,7 +484,7 @@ async function seed() {
       });
       createdProjects[projectData.name] = project.id;
       console.log(
-        `✅ Projet créé: ${projectData.name} (owner: ${projectData.ownerEmail})`
+        `✅ Projet créé: ${projectData.name} (owner: ${projectData.ownerEmail})`,
       );
 
       // Ajouter les contributeurs
@@ -486,7 +510,7 @@ async function seed() {
       const projectId = createdProjects[taskData.projectName];
       if (!projectId) {
         throw new Error(
-          `Projet introuvable pour la tâche "${taskData.title}": ${taskData.projectName}`
+          `Projet introuvable pour la tâche "${taskData.title}": ${taskData.projectName}`,
         );
       }
 
@@ -527,7 +551,10 @@ async function seed() {
         const commentData = comments[commentIndex];
 
         // Sélectionner un auteur aléatoire parmi les assignés ou l'owner du projet
-        const possibleAuthors = [...taskData.assignees, projectData!.ownerEmail];
+        const possibleAuthors = [
+          ...taskData.assignees,
+          projectData!.ownerEmail,
+        ];
         const authorEmail =
           possibleAuthors[Math.floor(Math.random() * possibleAuthors.length)];
 

@@ -42,6 +42,7 @@ export const validateRegisterData = (data: {
   email: string;
   password: string;
   name?: string;
+  firstname?: string;
 }): ValidationError[] => {
   const errors: ValidationError[] = [];
 
@@ -68,6 +69,14 @@ export const validateRegisterData = (data: {
     errors.push({
       field: "name",
       message: "Le nom doit contenir au moins 2 caractères",
+    });
+  }
+
+  // Validation du prénom (optionnel)
+  if (data.firstname && data.firstname.trim().length < 2) {
+    errors.push({
+      field: "firstname",
+      message: "Le prénom doit contenir au moins 2 caractères",
     });
   }
 
@@ -105,6 +114,7 @@ export const validateLoginData = (data: {
  */
 export const validateUpdateProfileData = (data: {
   name?: string;
+  firstname?: string;
   email?: string;
 }): ValidationError[] => {
   const errors: ValidationError[] = [];
@@ -124,6 +134,16 @@ export const validateUpdateProfileData = (data: {
       errors.push({
         field: "name",
         message: "Le nom doit contenir au moins 2 caractères",
+      });
+    }
+  }
+
+  // Validation du prénom si fourni
+  if (data.firstname !== undefined) {
+    if (data.firstname.trim().length < 2) {
+      errors.push({
+        field: "firstname",
+        message: "Le prénom doit contenir au moins 2 caractères",
       });
     }
   }

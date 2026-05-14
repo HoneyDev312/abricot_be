@@ -756,12 +756,18 @@ export const searchUsers = async (
               contains: searchQuery,
             },
           },
+          {
+            firstname: {
+              contains: searchQuery,
+            },
+          },
         ],
       },
       select: {
         id: true,
         email: true,
         name: true,
+        firstname: true,
       },
       take: 10, // Limiter à 10 résultats
       orderBy: [{ name: "asc" }, { email: "asc" }],

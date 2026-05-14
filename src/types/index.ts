@@ -6,6 +6,7 @@ export interface AuthRequest extends Request {
     id: string;
     email: string;
     name?: string;
+    firstname?: string;
   };
 }
 
@@ -22,6 +23,7 @@ export interface RegisterRequest {
   email: string;
   password: string;
   name?: string;
+  firstname?: string;
 }
 
 // Types pour la connexion
@@ -33,6 +35,7 @@ export interface LoginRequest {
 // Types pour la mise à jour du profil
 export interface UpdateProfileRequest {
   name?: string;
+  firstname?: string;
   email?: string;
 }
 

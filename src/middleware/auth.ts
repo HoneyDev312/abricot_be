@@ -33,6 +33,7 @@ export const authenticateToken = async (
         id: true,
         email: true,
         name: true,
+        firstname: true,
       },
     });
 
@@ -46,6 +47,7 @@ export const authenticateToken = async (
       id: user.id,
       email: user.email,
       name: user.name || undefined,
+      firstname: user.firstname || undefined,
     };
     next();
   } catch (error) {
@@ -85,6 +87,7 @@ export const optionalAuth = async (
         id: true,
         email: true,
         name: true,
+        firstname: true,
       },
     });
 
@@ -93,6 +96,7 @@ export const optionalAuth = async (
         id: user.id,
         email: user.email,
         name: user.name || undefined,
+        firstname: user.firstname || undefined,
       };
     }
 
